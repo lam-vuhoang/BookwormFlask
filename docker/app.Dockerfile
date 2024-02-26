@@ -12,9 +12,7 @@ EXPOSE 5000
 WORKDIR /backend
 
 # Install any needed packages specified in requirements.txt
-COPY ./backend/requirements.txt .
-COPY ./backend/.flaskenv .
-COPY ./backend/app.py .
+COPY ./backend .
 
 RUN pip install -r requirements.txt
 

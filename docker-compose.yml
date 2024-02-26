@@ -5,7 +5,7 @@ services:
     container_name: python
     build: 
       context: .
-      dockerfile: backend/app.Dockerfile
+      dockerfile: docker/app.Dockerfile
     ports:
       - "5000:5000"
     volumes:

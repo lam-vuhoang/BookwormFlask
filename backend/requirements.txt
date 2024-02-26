@@ -1,3 +1,7 @@
 Flask
 mysql-connector
 python-dotenv
+SQLAlchemy
+Flask-SQLAlchemy
+flask_mysqldb
+flask-smorest
