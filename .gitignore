@@ -2,4 +2,5 @@
 /backend/resources/__pycache__/
 /backend/instance/
 /backend/models/__pycache__/
-.env
+/backend/.flaskenv
+/backend/.env

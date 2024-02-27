@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_smorest import Api
-
-import models
+from os import environ
 
 from db import db
 from resources.item import blp as ItemBlueprint
@@ -19,10 +18,23 @@ def create_app(db_url=None):
     app.config[
         "OPENAPI_SWAGGER_UI_URL"
     ] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
-    app.config["SQLALCHEMY_DATABASE_URI"] = db_url or "sqlite:///data.db"
+    
+    app.config["PROPAGATE_EXCEPTIONS"] = True
+    
+    mySQLUser = environ.get("MYSQL_USER")
+    mySQLPassword = environ.get("MYSQL_PASSWORD")
+    mySQLDatabase = environ.get("MYSQL_DATABASE")
+    mySQLHost = environ.get("MYSQL_HOST")
+
+    # Configuring database URI
+    app.config["SQLALCHEMY_DATABASE_URI"] = f"mysql+mysqlconnector://{mySQLUser}:{mySQLPassword}@{mySQLHost}/{mySQLDatabase}"
+
+    # Disable modification tracking
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["PROPAGATE_EXCEPTIONS"] = True
+
     db.init_app(app)
+
     api = Api(app)
 
     with app.app_context():

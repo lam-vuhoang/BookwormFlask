@@ -1,8 +1,8 @@
 Flask
-mysql-connector
 python-dotenv
 SQLAlchemy
 Flask-SQLAlchemy
-flask_mysqldb
 flask-smorest
 marshmallow
+flask-mysql
+mysql-connector-python
