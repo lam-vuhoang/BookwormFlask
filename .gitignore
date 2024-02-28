@@ -4,3 +4,4 @@
 /backend/models/__pycache__/
 /backend/.flaskenv
 /backend/.env
+/backend/migrations/__pycache__/

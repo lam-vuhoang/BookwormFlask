@@ -1,5 +1,6 @@
 Flask
 Flask-JWT-Extended
+Flask-Migrate
 flask-mysql
 flask-smorest
 Flask-SQLAlchemy
