@@ -1,8 +1,11 @@
 Flask
+Flask-JWT-Extended
+flask-mysql
+flask-smorest
+Flask-SQLAlchemy
+gunicorn
+marshmallow
+mysql-connector-python
+passlib
 python-dotenv
 SQLAlchemy
-Flask-SQLAlchemy
-flask-smorest
-marshmallow
-flask-mysql
-mysql-connector-python

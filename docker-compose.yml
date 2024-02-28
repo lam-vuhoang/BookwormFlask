@@ -23,7 +23,6 @@ services:
       - ./backend/.env
     volumes:
       - db:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   db:
