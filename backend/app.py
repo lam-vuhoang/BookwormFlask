@@ -3,14 +3,9 @@ from flask_smorest import Api
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from os import environ
-
 from db import db
 from blocklist import BLOCKLIST
-
-from routes.user import blp as UserBlueprint
-from routes.item import blp as ItemBlueprint
-from routes.store import blp as StoreBlueprint
-from routes.tag import blp as TagBlueprint
+from routes import *
 
 
 def create_app(db_url=None):
