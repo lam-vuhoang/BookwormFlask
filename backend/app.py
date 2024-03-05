@@ -7,10 +7,10 @@ from os import environ
 from db import db
 from blocklist import BLOCKLIST
 
-from resources.user import blp as UserBlueprint
-from resources.item import blp as ItemBlueprint
-from resources.store import blp as StoreBlueprint
-from resources.tag import blp as TagBlueprint
+from routes.user import blp as UserBlueprint
+from routes.item import blp as ItemBlueprint
+from routes.store import blp as StoreBlueprint
+from routes.tag import blp as TagBlueprint
 
 
 def create_app(db_url=None):
