@@ -1,7 +1,7 @@
 from db import db
 
 
-class ItemsTags(db.Model):
+class ItemTag(db.Model):
     __tablename__ = "items_tags"
 
     id = db.Column(db.Integer, primary_key=True)

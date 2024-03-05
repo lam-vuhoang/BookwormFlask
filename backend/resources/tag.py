@@ -3,7 +3,7 @@ from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
 
 from db import db
-from models import TagModel, StoreModel, ItemModel
+from Models import Tag, Store, Item
 from schemas import TagSchema, TagAndItemSchema
 
 blp = Blueprint("Tags", "tags", description="Operations on tags")
@@ -13,17 +13,17 @@ blp = Blueprint("Tags", "tags", description="Operations on tags")
 class TagsInStore(MethodView):
     @blp.response(200, TagSchema(many=True))
     def get(self, store_id):
-        store = StoreModel.query.get_or_404(store_id)
+        store = Store.query.get_or_404(store_id)
 
         return store.tags.all()  # lazy="dynamic" means 'tags' is a query
 
     @blp.arguments(TagSchema)
     @blp.response(201, TagSchema)
     def post(self, tag_data, store_id):
-        if TagModel.query.filter(TagModel.store_id == store_id, TagModel.name == tag_data["name"]).first():
+        if Tag.query.filter(Tag.store_id == store_id, Tag.name == tag_data["name"]).first():
             abort(400, message="A tag with that name already exists in that store.")
 
-        tag = TagModel(**tag_data, store_id=store_id)
+        tag = Tag(**tag_data, store_id=store_id)
 
         try:
             db.session.add(tag)
@@ -41,8 +41,8 @@ class TagsInStore(MethodView):
 class LinkTagsToItem(MethodView):
     @blp.response(201, TagSchema)
     def post(self, item_id, tag_id):
-        item = ItemModel.query.get_or_404(item_id)
-        tag = TagModel.query.get_or_404(tag_id)
+        item = Item.query.get_or_404(item_id)
+        tag = Tag.query.get_or_404(tag_id)
 
         item.tags.append(tag)
 
@@ -56,8 +56,8 @@ class LinkTagsToItem(MethodView):
 
     @blp.response(200, TagAndItemSchema)
     def delete(self, item_id, tag_id):
-        item = ItemModel.query.get_or_404(item_id)
-        tag = TagModel.query.get_or_404(tag_id)
+        item = Item.query.get_or_404(item_id)
+        tag = Tag.query.get_or_404(tag_id)
 
         item.tags.remove(tag)
 
@@ -74,7 +74,7 @@ class LinkTagsToItem(MethodView):
 class Tag(MethodView):
     @blp.response(200, TagSchema)
     def get(self, tag_id):
-        tag = TagModel.query.get_or_404(tag_id)
+        tag = Tag.query.get_or_404(tag_id)
         return tag
 
     @blp.response(
@@ -88,7 +88,7 @@ class Tag(MethodView):
         description="Returned if the tag is assigned to one or more items. In this case, the tag is not deleted.",
     )
     def delete(self, tag_id):
-        tag = TagModel.query.get_or_404(tag_id)
+        tag = Tag.query.get_or_404(tag_id)
 
         if not tag.items:
             db.session.delete(tag)

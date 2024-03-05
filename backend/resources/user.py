@@ -10,7 +10,7 @@ from flask_jwt_extended import (
 from passlib.hash import pbkdf2_sha256
 
 from db import db
-from models import UserModel
+from Models import User
 from schemas import UserSchema
 from blocklist import BLOCKLIST
 
@@ -22,10 +22,10 @@ blp = Blueprint("Users", "users", description="Operations on users")
 class UserRegister(MethodView):
     @blp.arguments(UserSchema)
     def post(self, user_data):
-        if UserModel.query.filter(UserModel.username == user_data["username"]).first():
+        if User.query.filter(User.username == user_data["username"]).first():
             abort(409, message="A user with that username already exists.")
 
-        user = UserModel(
+        user = User(
             username=user_data["username"],
             password=pbkdf2_sha256.hash(user_data["password"]),
         )
@@ -39,8 +39,8 @@ class UserRegister(MethodView):
 class UserLogin(MethodView):
     @blp.arguments(UserSchema)
     def post(self, user_data):
-        user = UserModel.query.filter(
-            UserModel.username == user_data["username"]
+        user = User.query.filter(
+            User.username == user_data["username"]
         ).first()
 
         if user and pbkdf2_sha256.verify(user_data["password"], user.password):
@@ -71,11 +71,11 @@ class User(MethodView):
 
     @blp.response(200, UserSchema)
     def get(self, user_id):
-        user = UserModel.query.get_or_404(user_id)
+        user = User.query.get_or_404(user_id)
         return user
 
     def delete(self, user_id):
-        user = UserModel.query.get_or_404(user_id)
+        user = User.query.get_or_404(user_id)
         db.session.delete(user)
         db.session.commit()
         return {"message": "User deleted."}, 200
